@@ -1,8 +1,7 @@
-from django.shortcuts import render
 from django.urls import path
-from .
+from src.api_view import Kalkulator
+
 
 urlpatterns = [
-    path('calc/', )
+    path('calc/', Kalkulator.as_view())
 ]
-

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1e1e2f;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            height: 100vh;
+            margin: 0;
+            padding-top: 50px;
+        }
+
+        .container {
+            background: #2c2c3e;
+            padding: 20px;
+            border-radius: 15px;
+            width: 350px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .history {
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .item {
+            background: #3b3b55;
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .date {
+            font-size: 11px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🧮 Calculator</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="expression" placeholder="Masalan: 5 + 3 * 2" required>
+        <button type="submit">Hisoblash</button>
+    </form>
+
+    <div class="history">
+        <h3>📜 History</h3>
+
+        {% for item in calculations %}
+            <div class="item">
+                <b>{{ item.expression }}</b> = {{ item.result }}
+                <div class="date">{{ item.created_at }}</div>
+            </div>
+        {% empty %}
+            <p>Hozircha hech narsa yo‘q</p>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>
