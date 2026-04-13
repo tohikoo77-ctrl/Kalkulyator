@@ -1,8 +1,6 @@
 from django.urls import path
-from .views import calculator_view, calculate_api, history_api
+from .views import calculator_view
 
 urlpatterns = [
-    path('', calculator_view, name='home'),
-    path('api/calculate/', calculate_api),
-    path('api/history/', history_api),
+    path('', calculator_view, name='calculator'),
 ]
