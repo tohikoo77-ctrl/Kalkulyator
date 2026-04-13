@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import Calculator
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
 import json
 
 def get_user(request):
@@ -35,6 +36,7 @@ def calculator_view(request):
         'calculations': calculations
     })
 
+@csrf_exempt
 def calculate_api(request):
     if request.method == "POST":
         user = get_user(request)
