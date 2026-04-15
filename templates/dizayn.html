@@ -10,105 +10,167 @@
             font-family: 'Courier New', monospace;
         }
         .btn {
-            transition: all 0.1s;
+            transition: all 0.12s ease;
         }
         .btn:active {
-            transform: scale(0.95);
+            transform: scale(0.96);
+        }
+
+        .credits-container {
+            overflow: hidden;
+            height: 520px;
+            position: relative;
+        }
+
+        .credits-text {
+            position: absolute;
+            width: 100%;
+            text-align: left;
+            animation: rollUp 55s linear infinite;
+            color: #a1a1aa;
+            line-height: 2.05;
+            font-size: 15.8px;
+        }
+
+        @keyframes rollUp {
+            0% { transform: translateY(110%); }
+            100% { transform: translateY(-100%); }
         }
     </style>
 </head>
-<body class="bg-black min-h-screen flex items-center justify-center">
+<body class="bg-black min-h-screen flex items-center justify-center p-8">
 
-    <div class="w-full max-w-[380px] mx-auto bg-black p-4 rounded-3xl shadow-2xl border border-gray-800">
+    <div class="flex gap-16 max-w-5xl mx-auto">
 
-        <!-- Ekran -->
-        <div class="bg-zinc-900 rounded-2xl p-6 mb-6 h-32 flex flex-col justify-end items-end border border-gray-700">
-            <div id="expression" class="text-gray-400 text-xl min-h-[30px] text-right w-full overflow-hidden">
-                <!-- Masalan: 12 + 45 -->
-            </div>
-            <div id="result" class="text-white text-5xl font-light tracking-wider mt-2">
-                0
+        <!-- ==================== CHAP TOMON - UZUNROQ TARIX ==================== -->
+        <div class="w-80 hidden lg:block pt-8">
+            <div class="credits-container">
+                <div class="credits-text">
+                    <p class="text-white text-3xl font-light mb-10">Kalkulyator Tarixi</p>
+
+                    <div class="space-y-8">
+                        <div>
+                            <p class="text-amber-400 text-lg">• Miloddan avvalgi 2000-yillar</p>
+                            <p class="text-zinc-400">Abak — dunyodagi birinchi hisoblash vositasi</p>
+                        </div>
+
+                        <div>
+                            <p class="text-amber-400 text-lg">• 1623-yil</p>
+                            <p class="text-zinc-400">Wilhelm Schickard birinchi mexanik hisoblash mashinasini yaratdi</p>
+                        </div>
+
+                        <div>
+                            <p class="text-amber-400 text-lg">• 1642-yil</p>
+                            <p class="text-white">Blaise Pascal "Pascaline" — birinchi mashhur mexanik kalkulyator</p>
+                        </div>
+
+                        <div>
+                            <p class="text-amber-400 text-lg">• 1673-yil</p>
+                            <p class="text-zinc-400">Gottfried Leibniz "Stepped Reckoner" ni ixtiro qildi</p>
+                        </div>
+
+                        <div>
+                            <p class="text-amber-400 text-lg">• 1820-yil</p>
+                            <p class="text-zinc-400">Birinchi tijorat maqsadidagi mexanik kalkulyatorlar ishlab chiqarila boshlandi</p>
+                        </div>
+
+                        <div>
+                            <p class="text-amber-400 text-lg">• 1967-yil</p>
+                            <p class="text-white">Texas Instruments — Birinchi qo‘l (handheld) kalkulyatori</p>
+                        </div>
+
+                        <div>
+                            <p class="text-amber-400 text-lg">• 1970-yillar</p>
+                            <p class="text-white">Elektron kalkulyatorlar keng ommalashdi</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-16">
+                        <p class="text-white text-lg">Rahmat foydalanganingiz uchun <span class="text-pink-500">❤️</span></p>
+                        <p class="text-zinc-500 text-sm mt-6">Made in Fintech Hub • 2026</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Tugmalar -->
-        <div class="grid grid-cols-4 gap-3 text-center">
-            
-            <!-- 1-qator -->
-            <button onclick="clearAll()" class="btn bg-gray-300 hover:bg-gray-400 text-black font-medium py-6 rounded-2xl text-xl">C</button>
-            <button onclick="deleteLast()" class="btn bg-gray-300 hover:bg-gray-400 text-black font-medium py-6 rounded-2xl text-xl">⌫</button>
-            <button onclick="appendToExpression('(')" class="btn bg-gray-300 hover:bg-gray-400 text-black font-medium py-6 rounded-2xl text-xl">(</button>
-            <button onclick="appendToExpression(')')" class="btn bg-gray-300 hover:bg-gray-400 text-black font-medium py-6 rounded-2xl text-xl">)</button>
+        <!-- ==================== KALKULYATOR - RAMKASIZ ==================== -->
+        <div class="w-full max-w-[360px]">
 
-            <!-- 2-qator -->
-            <button onclick="appendToExpression('7')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">7</button>
-            <button onclick="appendToExpression('8')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">8</button>
-            <button onclick="appendToExpression('9')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">9</button>
-            <button onclick="appendToExpression('/')" class="btn bg-orange-500 hover:bg-orange-600 text-white py-6 rounded-2xl text-2xl">÷</button>
+            <!-- Ekran -->
+            <div class="bg-[#1c1c1c] rounded-3xl p-5 mb-6 h-28 flex flex-col justify-end items-end">
+                <div id="expression" class="text-gray-400 text-xl tracking-wider min-h-[28px] text-right w-full overflow-hidden">
+                </div>
+                <div id="result" class="text-white text-6xl font-light tracking-widest mt-1">
+                    0
+                </div>
+            </div>
 
-            <!-- 3-qator -->
-            <button onclick="appendToExpression('4')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">4</button>
-            <button onclick="appendToExpression('5')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">5</button>
-            <button onclick="appendToExpression('6')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">6</button>
-            <button onclick="appendToExpression('*')" class="btn bg-orange-500 hover:bg-orange-600 text-white py-6 rounded-2xl text-2xl">×</button>
+            <!-- Tugmalar -->
+            <div class="grid grid-cols-4 gap-2.5">
+                <!-- 1-qator -->
+                <button onclick="clearAll()" class="btn bg-[#2c2c2c] hover:bg-[#3a3a3a] text-white py-5 rounded-2xl text-xl font-medium">C</button>
+                <button onclick="deleteLast()" class="btn bg-[#2c2c2c] hover:bg-[#3a3a3a] text-white py-5 rounded-2xl text-2xl">⌫</button>
+                <button onclick="appendToExpression('%')" class="btn bg-[#2c2c2c] hover:bg-[#3a3a3a] text-white py-5 rounded-2xl text-2xl font-medium">%</button>
+                <button onclick="appendToExpression('/')" class="btn bg-orange-500 hover:bg-orange-600 text-white py-5 rounded-2xl text-3xl">÷</button>
 
-            <!-- 4-qator -->
-            <button onclick="appendToExpression('1')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">1</button>
-            <button onclick="appendToExpression('2')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">2</button>
-            <button onclick="appendToExpression('3')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">3</button>
-            <button onclick="appendToExpression('-')" class="btn bg-orange-500 hover:bg-orange-600 text-white py-6 rounded-2xl text-2xl">−</button>
+                <!-- 2-qator -->
+                <button onclick="appendToExpression('7')" class="btn bg-[#2c2c2c] hover:bg-[#3a3a3a] text-white py-6 rounded-2xl text-3xl">7</button>
+                <button onclick="appendToExpression('8')" class="btn bg-[#2c2c2c] hover:bg-[#3a3a3a] text-white py-6 rounded-2xl text-3xl">8</button>
+                <button onclick="appendToExpression('9')" class="btn bg-[#2c2c2c] hover:bg-[#3a3a3a] text-white py-6 rounded-2xl text-3xl">9</button>
+                <button onclick="appendToExpression('*')" class="btn bg-orange-500 hover:bg-orange-600 text-white py-6 rounded-2xl text-3xl">×</button>
 
-            <!-- 5-qator -->
-            <button onclick="appendToExpression('0')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl col-span-2">0</button>
-            <button onclick="appendToExpression('.')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">.</button>
-            <button onclick="appendToExpression('+')" class="btn bg-orange-500 hover:bg-orange-600 text-white py-6 rounded-2xl text-2xl">+</button>
+                <!-- 3-qator -->
+                <button onclick="appendToExpression('4')" class="btn bg-[#2c2c2c] hover:bg-[#3a3a3a] text-white py-6 rounded-2xl text-3xl">4</button>
+                <button onclick="appendToExpression('5')" class="btn bg-[#2c2c2c] hover:bg-[#3a3a3a] text-white py-6 rounded-2xl text-3xl">5</button>
+                <button onclick="appendToExpression('6')" class="btn bg-[#2c2c2c] hover:bg-[#3a3a3a] text-white py-6 rounded-2xl text-3xl">6</button>
+                <button onclick="appendToExpression('-')" class="btn bg-orange-500 hover:bg-orange-600 text-white py-6 rounded-2xl text-3xl">−</button>
 
-            <!-- Tenglik tugmasi -->
-            <button onclick="calculate()" 
-                    class="btn bg-green-500 hover:bg-green-600 text-white font-medium py-6 rounded-2xl text-3xl col-span-4 mt-2">
-                =
-            </button>
-        </div>
+                <!-- 4-qator -->
+                <button onclick="appendToExpression('1')" class="btn bg-[#2c2c2c] hover:bg-[#3a3a3a] text-white py-6 rounded-2xl text-3xl">1</button>
+                <button onclick="appendToExpression('2')" class="btn bg-[#2c2c2c] hover:bg-[#3a3a3a] text-white py-6 rounded-2xl text-3xl">2</button>
+                <button onclick="appendToExpression('3')" class="btn bg-[#2c2c2c] hover:bg-[#3a3a3a] text-white py-6 rounded-2xl text-3xl">3</button>
+                <button onclick="appendToExpression('+')" class="btn bg-orange-500 hover:bg-orange-600 text-white py-6 rounded-2xl text-3xl">+</button>
 
-        <!-- Pastdagi ma'lumot -->
-        <div class="text-center text-gray-500 text-xs mt-8">
-            Oddiy Kalkulyator
+                <!-- 5-qator -->
+                <button onclick="appendToExpression('0')" class="btn bg-[#2c2c2c] hover:bg-[#3a3a3a] text-white py-6 rounded-2xl text-3xl col-span-2">0</button>
+                <button onclick="appendToExpression('.')" class="btn bg-[#2c2c2c] hover:bg-[#3a3a3a] text-white py-6 rounded-2xl text-3xl">.</button>
+                <button onclick="calculate()" class="btn bg-green-500 hover:bg-green-600 text-white py-6 rounded-2xl text-4xl font-medium"> = </button>
+            </div>
+
+            <div class="text-center text-gray-500 text-xs mt-10">
+                Oddiy Kalkulyator • 2026
+            </div>
         </div>
     </div>
 
-<script>
-    let currentExpression = '';
+    <script>
+        let currentExpression = '';
 
-    function appendToExpression(value) {
-        currentExpression += value;
-        document.getElementById('expression').textContent = currentExpression || '0';
-    }
-
-    function clearAll() {
-        currentExpression = '';
-        document.getElementById('expression').textContent = '';
-        document.getElementById('result').textContent = '0';
-    }
-
-    function deleteLast() {
-        currentExpression = currentExpression.slice(0, -1);
-        document.getElementById('expression').textContent = currentExpression || '';
-    }
-
-    function calculate() {
-        try {
-            // Xavfsiz hisoblash uchun eval o'rniga oddiy yondashuv
-            let result = eval(currentExpression.replace('×', '*').replace('÷', '/'));
-            document.getElementById('result').textContent = result;
-            
-            // Django ga yuborish uchun (agar kerak bo'lsa)
-            // saveToHistory(currentExpression, result);
-            
-        } catch (e) {
-            document.getElementById('result').textContent = 'Xato';
+        function appendToExpression(value) {
+            currentExpression += value;
+            document.getElementById('expression').textContent = currentExpression || '0';
         }
-    }
-</script>
 
+        function clearAll() {
+            currentExpression = '';
+            document.getElementById('expression').textContent = '';
+            document.getElementById('result').textContent = '0';
+        }
+
+        function deleteLast() {
+            currentExpression = currentExpression.slice(0, -1);
+            document.getElementById('expression').textContent = currentExpression || '';
+        }
+
+        function calculate() {
+            try {
+                let expr = currentExpression.replace('×', '*').replace('÷', '/');
+                let result = eval(expr);
+                document.getElementById('result').textContent = Number(result).toLocaleString('uz-UZ');
+            } catch (e) {
+                document.getElementById('result').textContent = 'Xato';
+            }
+        }
+    </script>
 </body>
 </html>
