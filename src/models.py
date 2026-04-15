@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Calculator(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user', null=True, blank=True)
 
     expression = models.CharField(max_length=255, verbose_name='ifoda')
     result = models.CharField(max_length=255, verbose_name='natija')
