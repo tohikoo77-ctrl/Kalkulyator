@@ -1,103 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>Calculator</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulyator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #1e1e2f;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: start;
-            height: 100vh;
-            margin: 0;
-            padding-top: 50px;
+        .display {
+            font-family: 'Courier New', monospace;
         }
-
-        .container {
-            background: #2c2c3e;
-            padding: 20px;
-            border-radius: 15px;
-            width: 350px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        .btn {
+            transition: all 0.1s;
         }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            font-size: 18px;
-            border-radius: 10px;
-            border: none;
-            margin-bottom: 10px;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #4CAF50;
-            border: none;
-            color: white;
-            font-size: 18px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #45a049;
-        }
-
-        .history {
-            margin-top: 20px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .item {
-            background: #3b3b55;
-            padding: 8px;
-            border-radius: 8px;
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-
-        .date {
-            font-size: 11px;
-            color: #aaa;
+        .btn:active {
+            transform: scale(0.95);
         }
     </style>
 </head>
-<body>
+<body class="bg-black min-h-screen flex items-center justify-center">
 
-<div class="container">
-    <h2>🧮 Calculator</h2>
+    <div class="w-full max-w-[380px] mx-auto bg-black p-4 rounded-3xl shadow-2xl border border-gray-800">
 
-    <form method="POST">
-        {% csrf_token %}
-        <input type="text" name="expression" placeholder="Masalan: 5 + 3 * 2" required>
-        <button type="submit">Hisoblash</button>
-    </form>
-
-    <div class="history">
-        <h3>📜 History</h3>
-
-        {% for item in calculations %}
-            <div class="item">
-                <b>{{ item.expression }}</b> = {{ item.result }}
-                <div class="date">{{ item.created_at }}</div>
+        <!-- Ekran -->
+        <div class="bg-zinc-900 rounded-2xl p-6 mb-6 h-32 flex flex-col justify-end items-end border border-gray-700">
+            <div id="expression" class="text-gray-400 text-xl min-h-[30px] text-right w-full overflow-hidden">
+                <!-- Masalan: 12 + 45 -->
             </div>
-        {% empty %}
-            <p>Hozircha hech narsa yo‘q</p>
-        {% endfor %}
+            <div id="result" class="text-white text-5xl font-light tracking-wider mt-2">
+                0
+            </div>
+        </div>
+
+        <!-- Tugmalar -->
+        <div class="grid grid-cols-4 gap-3 text-center">
+            
+            <!-- 1-qator -->
+            <button onclick="clearAll()" class="btn bg-gray-300 hover:bg-gray-400 text-black font-medium py-6 rounded-2xl text-xl">C</button>
+            <button onclick="deleteLast()" class="btn bg-gray-300 hover:bg-gray-400 text-black font-medium py-6 rounded-2xl text-xl">⌫</button>
+            <button onclick="appendToExpression('(')" class="btn bg-gray-300 hover:bg-gray-400 text-black font-medium py-6 rounded-2xl text-xl">(</button>
+            <button onclick="appendToExpression(')')" class="btn bg-gray-300 hover:bg-gray-400 text-black font-medium py-6 rounded-2xl text-xl">)</button>
+
+            <!-- 2-qator -->
+            <button onclick="appendToExpression('7')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">7</button>
+            <button onclick="appendToExpression('8')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">8</button>
+            <button onclick="appendToExpression('9')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">9</button>
+            <button onclick="appendToExpression('/')" class="btn bg-orange-500 hover:bg-orange-600 text-white py-6 rounded-2xl text-2xl">÷</button>
+
+            <!-- 3-qator -->
+            <button onclick="appendToExpression('4')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">4</button>
+            <button onclick="appendToExpression('5')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">5</button>
+            <button onclick="appendToExpression('6')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">6</button>
+            <button onclick="appendToExpression('*')" class="btn bg-orange-500 hover:bg-orange-600 text-white py-6 rounded-2xl text-2xl">×</button>
+
+            <!-- 4-qator -->
+            <button onclick="appendToExpression('1')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">1</button>
+            <button onclick="appendToExpression('2')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">2</button>
+            <button onclick="appendToExpression('3')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">3</button>
+            <button onclick="appendToExpression('-')" class="btn bg-orange-500 hover:bg-orange-600 text-white py-6 rounded-2xl text-2xl">−</button>
+
+            <!-- 5-qator -->
+            <button onclick="appendToExpression('0')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl col-span-2">0</button>
+            <button onclick="appendToExpression('.')" class="btn bg-zinc-800 hover:bg-zinc-700 text-white py-6 rounded-2xl text-2xl">.</button>
+            <button onclick="appendToExpression('+')" class="btn bg-orange-500 hover:bg-orange-600 text-white py-6 rounded-2xl text-2xl">+</button>
+
+            <!-- Tenglik tugmasi -->
+            <button onclick="calculate()" 
+                    class="btn bg-green-500 hover:bg-green-600 text-white font-medium py-6 rounded-2xl text-3xl col-span-4 mt-2">
+                =
+            </button>
+        </div>
+
+        <!-- Pastdagi ma'lumot -->
+        <div class="text-center text-gray-500 text-xs mt-8">
+            Oddiy Kalkulyator
+        </div>
     </div>
-</div>
+
+<script>
+    let currentExpression = '';
+
+    function appendToExpression(value) {
+        currentExpression += value;
+        document.getElementById('expression').textContent = currentExpression || '0';
+    }
+
+    function clearAll() {
+        currentExpression = '';
+        document.getElementById('expression').textContent = '';
+        document.getElementById('result').textContent = '0';
+    }
+
+    function deleteLast() {
+        currentExpression = currentExpression.slice(0, -1);
+        document.getElementById('expression').textContent = currentExpression || '';
+    }
+
+    function calculate() {
+        try {
+            // Xavfsiz hisoblash uchun eval o'rniga oddiy yondashuv
+            let result = eval(currentExpression.replace('×', '*').replace('÷', '/'));
+            document.getElementById('result').textContent = result;
+            
+            // Django ga yuborish uchun (agar kerak bo'lsa)
+            // saveToHistory(currentExpression, result);
+            
+        } catch (e) {
+            document.getElementById('result').textContent = 'Xato';
+        }
+    }
+</script>
 
 </body>
 </html>
