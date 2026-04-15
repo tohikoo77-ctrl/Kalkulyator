@@ -5,7 +5,7 @@ from .models import Calculator
 import re
 
 class Kalkulator(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     serializer_class = CalculatorSerializer
 
     def get_queryset(self):
