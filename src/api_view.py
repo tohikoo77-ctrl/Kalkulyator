@@ -1,25 +1,45 @@
-from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
-from .serializer import CalculatorSerializer
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Calculator
+from .serializer import CalculatorSerializer
 import re
 
-class Kalkulator(APIView):
+class CalculatorAPI(APIView):
+    # Если хочешь, чтобы API видели все, ставь AllowAny
     permission_classes = [AllowAny]
-    serializer_class = CalculatorSerializer
 
-    def get_queryset(self):
-        return Calculator.objects.filter(user=self.request.user)
+    def get(self, request):
+        """Получаем всю историю вычислений"""
+        calculations = Calculator.objects.all().order_by('-created_at')
+        serializer = CalculatorSerializer(calculations, many=True)
+        return Response(serializer.data)
 
-    def perform_create(self, serializer):
-        expression = self.request.data.get('expression')
-        clean_expression = re.sub(r'[^0-9+\-*/.()]', '', expression)
+    def post(self, request):
+        """Принимаем выражение, считаем и сохраняем"""
+        expression = request.data.get('expression', '')
 
+        # 1. Очистка (безопасность)
+        clean_expr = re.sub(r'[^0-9+\-*/.()]', '', expression)
+
+        # 2. Расчет
         try:
-            result = str(eval(clean_expression))
-        except Exception as e:
-            result = "Error"
+            if not clean_expr:
+                raise ValueError("Bo'sh ifoda")
+            result = str(eval(clean_expr))
+        except Exception:
+            return Response({"error": "Invalid expression"}, status=400)
 
-        serializer.save(user=self.request.user, result=result, expression=expression)
+        # 3. Сохранение (если юзер не залогинен, ставим None)
+        user = request.user if request.user.is_authenticated else None
+        calc = Calculator.objects.create(
+            user=user,
+            expression=expression,
+            result=result
+        )
+
+        serializer = CalculatorSerializer(calc)
+        return Response(serializer.data, status=200)
 
 
