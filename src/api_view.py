@@ -21,5 +21,3 @@ class Kalkulator(APIView):
             result = "Error"
 
         serializer.save(user=self.request.user, result=result, expression=expression)
-
-
