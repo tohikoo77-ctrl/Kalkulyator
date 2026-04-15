@@ -23,3 +23,7 @@ def calculator_view(request):
     return render(request, 'dizayn.html', {
         'calculations': calculations
     })
+
+
+def home(request):
+    return render(request,"dizayn.html",)
